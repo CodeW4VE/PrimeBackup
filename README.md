@@ -2,6 +2,21 @@
 
 English | [中文](README.zh.md)
 
+---
+
+> ### About this fork
+>
+> This is a [W4VE](https://github.com/CodeW4VE) fork of [TISUnion/PrimeBackup](https://github.com/TISUnion/PrimeBackup), kept in sync with upstream and carrying one fix:
+>
+> **Clickable buttons do nothing on Minecraft 1.20.5+ clients.**
+> Since 1.20.5 the vanilla client refuses to execute a `run_command` click event whose command does not start with a `/`, logging `Failed to run command without '/' prefix from click event` and dropping it silently. Every Prime Backup button runs an MCDR command (`!!pb confirm`, `!!pb abort`, list pagination, `!!pb database inspect ...`), none of which start with a `/` — so on any modern client they are dead buttons and the commands have to be typed by hand.
+>
+> The fix routes those click events through a single helper, `click_run()` in `prime_backup/utils/mcdr_utils.py`, which uses `suggest_command` for commands without a leading `/` (the click fills the chat bar, the player presses enter) and keeps `run_command` for real Minecraft commands. This is the same interaction the plugin already uses for its `[>]` restore and `[x]` delete buttons.
+>
+> Verified working on Minecraft 1.21 with MCDR 2.15.5. See [`click_run()`](prime_backup/utils/mcdr_utils.py) for details.
+
+---
+
 A powerful backup plugin for MCDR, an advanced backup solution for your Minecraft world
 
 Document: https://tisunion.github.io/PrimeBackup/
